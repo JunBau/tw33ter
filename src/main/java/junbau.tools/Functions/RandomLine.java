@@ -17,7 +17,7 @@ public class RandomLine {
 
     private static String tweetText = "";
 
-    public void Begin(String file, TwitterFactory tf) {
+    public void Begin(String file) {
         try {
             FileInputStream fs = new FileInputStream(file);
             BufferedReader br = new BufferedReader(new InputStreamReader(fs));

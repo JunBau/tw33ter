@@ -2,10 +2,12 @@ package junbau.tools.Functions;
 
 public class AuthAPI {
 
-    private static String consumerKey = "Your key here.";
-    private static String consumerSecret = "App secret here.";
-    private static String userToken = "UserToken here.";
-    private static String secretKey = "Secret key here.";
+    // Shouldn't really store keys within the code, will re-evaluate.
+
+    private static String consumerKey = "YOUR APP KEY HERE";
+    private static String consumerSecret = "YOUR APP SECRET KEY HERE";
+    private static String userToken = "YOUR USER TOKEN HERE";
+    private static String secretKey = "YOUR USER SECRET KEY HERE";
 
     public static String getUserToken() {
         return userToken;
