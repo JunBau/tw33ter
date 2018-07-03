@@ -10,6 +10,7 @@ import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -22,7 +23,7 @@ public class Main extends TwitterAPI {
 
     private static Scanner userInput = new Scanner(System.in);
 
-    public static void main(String[] args) throws SchedulerException {
+    public static void main(String[] args) throws SchedulerException, IOException {
 
         System.out.println("Welcome to tw33ter!");
         System.out.println("tw33ter is a tweet scheduler.\n");
@@ -38,7 +39,7 @@ public class Main extends TwitterAPI {
                 choice = Integer.parseInt(userInput.nextLine());
             } catch (Exception e) {
                 System.out.println("Invalid input.");
-            } if (choice > 5) {
+            } if (choice > 5 || choice < 1) {
                 System.out.println("Wrong number mate.");
             }
 
@@ -52,12 +53,16 @@ public class Main extends TwitterAPI {
                 case 3:
                     randomTweet();
                     break;
-//                case 4:
-//                    returnStatus();
-//                    break;
-                case 5:
+                case 4:
                     scheduledTweets();
                     break;
+                case 5:
+                    TimedTweet.printArrayList();
+                    break;
+
+                    default:
+                        System.out.println("Please pick a valid option.");
+                        break;
             }
         }
 
@@ -67,7 +72,9 @@ public class Main extends TwitterAPI {
         System.out.println("Choose from the following: " +
                 "\n1 - Tweet" +
                 "\n2 - Random line print" +
-                "\n3 - Tweet something random");
+                "\n3 - Tweet something random" +
+                "\n4 - Schedule random tweet" +
+                "\n5 - Print tweet list");
     }
 
     private static void postTweet() {
@@ -80,25 +87,20 @@ public class Main extends TwitterAPI {
     private static void randLine() {
         String file = userInput.nextLine();
         RandomLine random = new RandomLine();
-        random.Begin(file);
+        random.readFile(file);
         System.out.println(random.getTweetText());
     }
 
     //Takes a random line from a txt file and tweets it.
     private static void randomTweet() {
-        System.out.println("\nEnter path for the file.");
-        RandomLine random = new RandomLine();
-        String input = userInput.nextLine();
-        random.Begin(input);
-        String line = random.getTweetText();
-        System.out.println(random.getTweetText());
-        Tweet(line);
+            System.out.println("\nEnter path for the file.");
+            RandomLine random = new RandomLine();
+            String input = userInput.nextLine();
+            random.readFile(input);
+            String line = random.getTweetText();
+            System.out.println(random.getTweetText());
+            Tweet(line);
     }
-
-//    private static void returnStatus() {
-//        RandomLine random = new RandomLine();
-//        random.UniqueString(tf);
-//    }
 
     private static void scheduledTweets() {
 
@@ -114,12 +116,11 @@ public class Main extends TwitterAPI {
 
             Date runTime = evenMinuteDate(new Date());
 
-// Trigger the job to run on the next round minute
             Trigger trigger = newTrigger()
                     .withIdentity("trigger1", "group1")
                     .startAt(runTime)
                     .withSchedule(simpleSchedule()
-                            .withIntervalInMinutes(30)
+                            .withIntervalInMinutes(5)
                             .repeatForever())
                     .build();
 

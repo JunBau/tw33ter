@@ -9,19 +9,16 @@ public class AuthAPI {
     private static String userToken = "YOUR USER TOKEN HERE";
     private static String secretKey = "YOUR USER SECRET KEY HERE";
 
-    public static String getUserToken() {
+    protected static String getUserToken() {
         return userToken;
     }
-
-    public static String getSecretKey() {
+    protected static String getSecretKey() {
         return secretKey;
     }
-
-    public static String getConsumerKey() {
+    protected static String getConsumerKey() {
         return consumerKey;
     }
-
-    public static String getConsumerSecret() {
+    protected static String getConsumerSecret() {
         return consumerSecret;
     }
 }

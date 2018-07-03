@@ -8,6 +8,7 @@ import org.quartz.JobExecutionException;
 public class TimedTweet extends TwitterAPI implements org.quartz.Job  {
 
     private static String filePath = "";
+    static RandomLine random = new RandomLine();
 
     public TimedTweet() {
     }
@@ -17,16 +18,21 @@ public class TimedTweet extends TwitterAPI implements org.quartz.Job  {
         System.out.println("Executing scheduled tweets...");
         System.out.println("Grabbing tweet from: " + filePath);
 
-        RandomLine random = new RandomLine();
-        random.Begin(filePath);
-        String line = random.getTweetText();
+        String tweet = random.getTweetText();
 
-        System.out.println(line);
+        System.out.println(tweet);
 
-        Tweet(line);
+        random.removeTweet(tweet);
+
+        Tweet(tweet);
     }
 
     public static void setFilePath(String filePath) {
         TimedTweet.filePath = filePath;
+        random.readFile(filePath);
+    }
+
+    public static void printArrayList() {
+        random.printTweetArray();
     }
 }

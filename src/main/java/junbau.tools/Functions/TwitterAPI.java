@@ -12,8 +12,12 @@ public class TwitterAPI extends AuthAPI {
 
     public static void Tweet (String userInput) {
         try {
-            Status status = getTwitter().updateStatus(userInput);
-            System.out.println("Successfully updated the status to [" + status.getText() + "].\n");
+            if (userInput.equals(null)) {
+                System.out.println("Nothing to tweet.");
+            } else {
+                Status status = getTwitter().updateStatus(userInput);
+                System.out.println("Successfully updated the status to [" + status.getText() + "].\n");
+            }
         } catch (TwitterException except) {
             except.printStackTrace();
         }
