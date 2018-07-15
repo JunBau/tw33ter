@@ -1,4 +1,4 @@
-package junbau.tools.Functions;
+package uk.junbau.tools.Functions;
 
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -31,7 +31,6 @@ public class TwitterAPI extends AuthAPI {
                 .setOAuthConsumerSecret(getConsumerSecret())
                 .setOAuthAccessToken(getUserToken())
                 .setOAuthAccessTokenSecret(getSecretKey());
-
         TwitterFactory tf = new TwitterFactory(cb.build());
         Twitter twitter = tf.getInstance();
 
