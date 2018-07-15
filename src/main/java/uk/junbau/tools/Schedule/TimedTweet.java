@@ -1,7 +1,7 @@
-package junbau.tools.Schedule;
+package uk.junbau.tools.Schedule;
 
-import junbau.tools.Functions.RandomLine;
-import junbau.tools.Functions.TwitterAPI;
+import uk.junbau.tools.Functions.RandomLine;
+import uk.junbau.tools.Functions.TwitterAPI;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 

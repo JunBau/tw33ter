@@ -1,16 +1,20 @@
-package junbau.tools;
+package uk.junbau.tools;
 
 
-import junbau.tools.Functions.RandomLine;
-import junbau.tools.Functions.TwitterAPI;
-import junbau.tools.Schedule.TimedTweet;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import uk.junbau.tools.Functions.RandomLine;
+import uk.junbau.tools.Functions.TwitterAPI;
+import uk.junbau.tools.Schedule.TimedTweet;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
+import uk.junbau.tools.JSON.TwitterCredentials;
 
-import java.io.IOException;
+import java.io.*;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -23,8 +27,21 @@ public class Main extends TwitterAPI {
 
     private static Scanner userInput = new Scanner(System.in);
 
-    public static void main(String[] args) throws SchedulerException, IOException {
+    public static void main(String[] args) throws Throwable {
+        switch (args.length) {
+            case 0:
+                startInInteractiveMode();
+                break;
+            case 2:
+                startInAutomaticMode(args[0], args[1]);
+                break;
+            default:
+                System.out.println("Tw33ter requires either no arguments or a conffile.json and tweetdb.json");
+                break;
+        }
+    }
 
+    private static void startInInteractiveMode() {
         System.out.println("Welcome to tw33ter!");
         System.out.println("tw33ter is a tweet scheduler.\n");
 
@@ -60,12 +77,11 @@ public class Main extends TwitterAPI {
                     TimedTweet.printArrayList();
                     break;
 
-                    default:
-                        System.out.println("Please pick a valid option.");
-                        break;
+                default:
+                    System.out.println("Please pick a valid option.");
+                    break;
             }
         }
-
     }
 
     private static void displayOptions () {
@@ -132,5 +148,9 @@ public class Main extends TwitterAPI {
         } catch (SchedulerException se) {
             se.printStackTrace();
         }
+    }
+
+    private static void startInAutomaticMode(String tweetDb, String credsFile) throws Throwable {
+        new Tw33ter(tweetDb, credsFile);
     }
 }
